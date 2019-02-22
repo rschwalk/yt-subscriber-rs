@@ -1,0 +1,11 @@
+[package]
+name = "yt-subscriber-rs"
+version = "0.1.0"
+authors = ["rschwalk <rschwalk@outlook.com>"]
+edition = "2018"
+
+[dependencies]
+gtk = "^0.3.0"
+relm = "^0.11.0"
+relm-derive = "^0.11.0"
+
