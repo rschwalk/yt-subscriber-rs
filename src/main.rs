@@ -35,7 +35,10 @@ relm_widget! {
             gtk::Window {
                 title: "YT Video Subscriber",
                 gtk::Box {
-                    orientation: Vertical,
+                    orientation: Horizontal,
+                    gtk::Box {
+                        orientation: Vertical,
+                    }
                 }
                 delete_event(_,_) => (Msg::Quit, Inhibit(false)),
             }
