@@ -5,7 +5,7 @@ extern crate relm;
 extern crate relm_derive;
 
 use gtk::prelude::*;
-use gtk::Orientation::Vertical;
+use gtk::Orientation::{Horizontal, Vertical};
 use gtk::{Button, Inhibit, Label, Window, WindowType};
 use relm::{Relm, Update, Widget};
 
@@ -21,9 +21,7 @@ enum Msg {
 
 #[derive(Clone)]
 struct Widgets {
-    counter_label: Label,
-    minus_buttton: Button,
-    plus_button: Button,
+    import_button: Button,
     window: Window,
 }
 
@@ -66,20 +64,24 @@ impl Widget for Win {
 
     // Create the widgets.
     fn view(relm: &Relm<Self>, model: Self::Model) -> Self {
-        let vbox = gtk::Box::new(Vertical, 0);
+        let hbox = gtk::Box::new(Horizontal, 10);
+        let vbox_side_pane = gtk::Box::new(Vertical, 0);
+        let vbox_content_pane = gtk::Box::new(Vertical, 0);
 
-        let plus_button = Button::new_with_label("+");
-        vbox.add(&plus_button);
+        let import_button = Button::new_with_label("Import URL");
+        vbox_side_pane.add(&import_button);
 
-        let counter_label = Label::new("0");
-        vbox.add(&counter_label);
+        let main_label = Label::new("Chanel videos");
+        vbox_content_pane.add(&main_label);
 
-        let minus_buttton = Button::new_with_label("-");
-        vbox.add(&minus_buttton);
+        hbox.add(&vbox_side_pane);
+        hbox.add(&vbox_content_pane);
 
         // GTK+ widgets are used normally within a `Widget`.
         let window = Window::new(WindowType::Toplevel);
-        window.add(&vbox);
+        window.set_title("YT Video Subscriber");
+        window.set_default_size(800, 600);
+        window.add(&hbox);
 
         // Connect the signal `delete_event` to send the `Quit` message.
         connect!(
@@ -96,9 +98,7 @@ impl Widget for Win {
         Win {
             model,
             widgets: Widgets {
-                counter_label,
-                minus_buttton,
-                plus_button,
+                import_button,
                 window: window,
             },
         }
