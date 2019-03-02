@@ -1,15 +1,21 @@
+extern crate gio;
 extern crate gtk;
-#[macro_use]
-extern crate relm;
-#[macro_use]
-extern crate relm_derive;
 
-use relm::Widget;
+use gio::prelude::*;
+
+use std::env::args;
 
 mod application;
 
 fn main() {
-    application::MainWindow::run(()).unwrap();
+    let application = gtk::Application::new("com.rschwalk.demogtk", Default::default())
+        .expect("Initialization failed...");
+
+    application.connect_activate(|app| {
+        application::MainWindow::build_ui(app);
+    });
+
+    application.run(&args().collect::<Vec<_>>());
 }
 
 // use gtk::prelude::*;

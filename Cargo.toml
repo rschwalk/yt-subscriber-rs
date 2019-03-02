@@ -5,7 +5,7 @@ authors = ["rschwalk <rschwalk@outlook.com>"]
 edition = "2018"
 
 [dependencies]
-gtk = "^0.3.0"
-relm = "^0.11.0"
-relm-derive = "^0.11.0"
-
+gio = "^0.6.0"
+[dependencies.gtk]
+version = "^0.6.0"
+features = ["v3_20"]
