@@ -1,31 +1,29 @@
-use gtk::{
-    ApplicationWindow, Box, Button, ButtonExt, ContainerExt, GtkWindowExt, HeaderBar, HeaderBarExt,
-    IconSize, Statusbar, StatusbarExt, WidgetExt,
-};
+use gtk::{ButtonExt, ContainerExt, GtkWindowExt, HeaderBarExt, StatusbarExt, WidgetExt};
 
 use gtk::Orientation::Vertical;
 
 pub struct MainWindow {
     context_id: u32,
-    statusbar: Statusbar,
-    window: ApplicationWindow,
+    statusbar: gtk::Statusbar,
+    window: gtk::ApplicationWindow,
 }
 
 impl MainWindow {
     pub fn build_ui(application: &gtk::Application) -> Self {
-        let header = HeaderBar::new();
+        let header = gtk::HeaderBar::new();
         header.set_show_close_button(true);
 
-        let add_button = Button::new_from_icon_name("document-new", IconSize::LargeToolbar);
+        let add_button =
+            gtk::Button::new_from_icon_name("document-new", gtk::IconSize::LargeToolbar);
         header.add(&add_button);
 
-        let main_box = Box::new(Vertical, 0);
+        let main_box = gtk::Box::new(Vertical, 0);
 
-        let statusbar = Statusbar::new();
+        let statusbar = gtk::Statusbar::new();
         let id = statusbar.get_context_id("Status");
         main_box.add(&statusbar);
 
-        let window = ApplicationWindow::new(application);
+        let window = gtk::ApplicationWindow::new(application);
         window.set_titlebar(&header);
         window.set_title("YT Video Subscriber");
         window.set_default_size(800, 600);
