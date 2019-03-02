@@ -12,7 +12,8 @@ fn main() {
         .expect("Initialization failed...");
 
     application.connect_activate(|app| {
-        application::MainWindow::build_ui(app);
+        let mut main_win = application::MainWindow::build_ui(app);
+        main_win.start();
     });
 
     application.run(&args().collect::<Vec<_>>());
