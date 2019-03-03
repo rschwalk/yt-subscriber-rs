@@ -2,6 +2,24 @@ use gtk::{ButtonExt, ContainerExt, GtkWindowExt, HeaderBarExt, StatusbarExt, Wid
 
 use gtk::Orientation::Vertical;
 
+macro_rules! clone {
+    (@param _) => ( _ );
+    (@param $x:ident) => ( $x );
+    ($($n:ident),+ => move || $body:expr) => (
+        {
+            $( let $n = $n.clone(); )+
+            move || $body
+        }
+    );
+    ($($n:ident),+ => move |$($p:tt),+| $body:expr) => (
+        {
+            $( let $n = $n.clone(); )+
+            move |$(clone!(@param $p),)+| $body
+        }
+    );
+}
+
+#[derive(Clone)]
 pub struct MainWindow {
     context_id: u32,
     statusbar: gtk::Statusbar,
@@ -30,10 +48,9 @@ impl MainWindow {
 
         window.add(&main_box);
 
-        let statusbar_clone = statusbar.clone();
-        add_button.connect_clicked(move |_| {
-            statusbar_clone.push(id, "Import clicked");
-        });
+        add_button.connect_clicked(clone!(statusbar => move |_| {
+            statusbar.push(id, "Import clicked");
+        }));
 
         // window.show_all();
 
